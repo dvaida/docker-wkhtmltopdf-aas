@@ -1,14 +1,14 @@
-FROM openlabs/docker-wkhtmltopdf:latest
-MAINTAINER Sharoon Thomas <sharoon.thomas@openlabs.co.in>
+FROM dvaida/wkhtmltopdf:0.12.5-1_stretch
+MAINTAINER Dorel Vaida <dorel.vaida@gmail.com>
 
 # Install dependencies for running web service
-RUN apt-get install -y python-pip
-RUN pip install werkzeug executor gunicorn
+RUN pip3 install werkzeug executor gunicorn
 
 ADD app.py /app.py
-EXPOSE 80
 
-ENTRYPOINT ["usr/local/bin/gunicorn"]
+ENV PORT=4444
+ENV WORKERS=4
 
-# Show the extended help
-CMD ["-b", "0.0.0.0:80", "--log-file", "-", "app:application"]
+ENTRYPOINT []
+
+CMD /bin/bash -c "/usr/local/bin/gunicorn -w $WORKERS -b 0.0.0.0:$PORT app:application"

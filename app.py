@@ -59,7 +59,7 @@ def application(request):
         execute(' '.join(args))
 
         return Response(
-            wrap_file(request.environ, open(file_name + '.pdf')),
+            wrap_file(request.environ, open(file_name + '.pdf', 'rb')),
             mimetype='application/pdf',
         )
 
